@@ -40,36 +40,49 @@
       margin-right: 8px;
       color: #2a5db0;
     }
-    .profile-img {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 30px;
-    margin-bottom: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-  }
 
-  .profile-img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-  }
+    /* 공통 이미지 스타일 */
+    .profile-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      margin: 15px auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+      display: block;
+    }
+
+    .profile-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .intro-card {
+      background: #fdf6e8;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 30px;
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <img src="banner.jpg" alt="뉴나의 배너" style="width: 100%; max-width: 840px; border-radius: 24px; display: block; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+  
   <h1>안녕하세요, 뉴나입니다! 💙</h1>
   <p>20년차 워킹맘의 새로운 시작, 내판내짠 포트폴리오입니다.</p>
- <div class="intro-card" style="background: #fdf6e8; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 30px; max-width: 800px; margin: 40px auto; text-align: center;">
-  <!-- 상단 이미지 -->
-  <img src="newna_intro.png" alt="뉴나 인사 이미지" class="profile-img" style="width: 100px; border-radius: 20px; margin-bottom: 15px;">
-  <!-- 인사말 -->
-  <p style="font-size: 1.2em; color: #2a5db0;">
-    안녕하세요, 저는 뉴나입니다.<br>
-    이 세상의 모든 여성, 그리고 약자를 응원합니다 💪💙
-  </p>
-  <!-- 하단 이미지 -->
-  <img src="newna_community.png" alt="공원 사람들 이미지" class="profile-img" style="width: 100px; margin-top: 15px;">
-</div>
+
+  <div class="intro-card">
+    <img src="newna_intro.png" alt="뉴나 인사 이미지" class="profile-img">
+    <p style="font-size: 1.2em; color: #2a5db0;">
+      안녕하세요, 저는 뉴나입니다.<br>
+      이 세상의 모든 여성, 그리고 약자를 응원합니다 💪💙
+    </p>
+    <img src="newna_community.png" alt="공원 사람들 이미지" class="profile-img">
+  </div>
+
   <div class="section" id="about">
     <h2>About Me</h2>
     <p>안녕하세요, 뉴나입니다 😊</p>
