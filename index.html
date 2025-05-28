@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>효정의 포트폴리오</title>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -66,23 +67,34 @@
       margin: 40px auto;
       text-align: center;
     }
+
+    a {
+      color: #2a5db0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* 방명록 메시지 스타일 */
+    .message strong {
+      color: #2a5db0;
+    }
   </style>
 </head>
 <body>
   <img src="banner.jpg" alt="뉴나의 배너" style="width: 100%; max-width: 840px; border-radius: 24px; display: block; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-  
-  
 
   <div class="intro-card">
-    <img src="newna_intro.png" alt="뉴나 인사 이미지" class="profile-img">
-    <p style="font-size: 1.2em; color: #2a5db0;">
-      <br>
+    <img src="newna_intro.png" alt="뉴나 프로필 사진" class="profile-img">
+    <div style="font-size: 1.2em; color: #2a5db0;">
       <h1>안녕하세요, 뉴나입니다! 💙</h1>
       <p>20년차 워킹맘의 새로운 시작, 내판내짠 포트폴리오입니다.</p>
       <p>이 세상의 모든 여성, 그리고 약자를 응원합니다 💪💙</p>
-      <br>
-    </p>
-    <img src="newna_community.png" alt="공원 사람들 이미지" class="profile-img">
+    </div>
+    <img src="newna_community.png" alt="공원에서의 사람들 모습" class="profile-img">
   </div>
 
   <div class="section" id="about">
@@ -120,5 +132,83 @@
     <h2>Contact</h2>
     <p>📧 newna@naver.com</p>
   </div>
+
+  <!-- 방명록 섹션 시작 -->
+  <div class="section" id="guestbook">
+    <h2>방명록</h2>
+
+    <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+      <label for="nickname">닉네임:</label><br>
+      <input type="text" id="nickname" placeholder="닉네임을 입력하세요" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"><br>
+
+      <label for="message">메시지:</label><br>
+      <textarea id="message" placeholder="메시지를 입력하세요" rows="4" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"></textarea><br>
+
+      <button onclick="submitMessage()" style="background-color: #2a5db0; color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer;">전송</button>
+    </div>
+
+    <div id="messages" style="max-width: 600px; margin: 20px auto 0; text-align: left; font-size: 1.1em; color: #333;">
+      <!-- 방명록 메시지 출력 영역 -->
+    </div>
+  </div>
+  <!-- 방명록 섹션 끝 -->
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCDPK18JOD0qqKU7mVMUSFwkoDaAbuKvuk",
+      authDomain: "newna-project.firebaseapp.com",
+      databaseURL: "https://newna-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "newna-project",
+      storageBucket: "newna-project.firebasestorage.app",
+      messagingSenderId: "398829933672",
+      appId: "1:398829933672:web:29954a15097390f0b897dd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function submitMessage() {
+      const nickname = document.getElementById("nickname").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!nickname || !message) {
+        alert("닉네임과 메시지를 모두 입력해주세요!");
+        return;
+      }
+
+      push(ref(db, "guestbook"), {
+        nickname,
+        message,
+        time: Date.now()
+      });
+
+      document.getElementById("nickname").value = "";
+      document.getElementById("message").value = "";
+    }
+
+    const messagesDiv = document.getElementById("messages");
+    const messageList = [];
+
+    onChildAdded(ref(db, "guestbook"), (data) => {
+      const entry = data.val();
+      const div = document.createElement("div");
+      div.className = "message";
+      div.style.borderBottom = "1px solid #ddd";
+      div.style.padding = "10px 0";
+      div.innerHTML = `<strong>${entry.nickname}</strong><br>${entry.message}`;
+
+      messageList.unshift(div);
+
+      if (messageList.length > 5) {
+        const removed = messageList.pop();
+        messagesDiv.removeChild(removed);
+      }
+
+      messagesDiv.prepend(div);
+    });
+  </script>
 </body>
 </html>
