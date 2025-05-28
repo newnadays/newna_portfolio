@@ -186,22 +186,21 @@
     const messageList = [];
 
     onChildAdded(ref(db, "guestbook"), (data) => {
-      const entry = data.val();
-      const div = document.createElement("div");
-      div.className = "message";
-      div.style.borderBottom = "1px solid #ddd";
-      div.style.padding = "10px 0";
-      div.innerHTML = `<strong>${entry.nickname}</strong><br>${entry.message}`;
+  const entry = data.val();
+  const div = document.createElement("div");
+  div.className = "message";
 
-      messageList.unshift(div);
+  const dateStr = formatDate(entry.time);
+  div.innerHTML = `<strong>${entry.nickname}</strong> <span style="font-size: 0.9em; color: #888;">(${dateStr})</span><br>${entry.message}`;
 
-      if (messageList.length > 5) {
-        const removed = messageList.pop();
-        messagesDiv.removeChild(removed);
-      }
+  messageList.unshift(div);
+  if (messageList.length > 5) {
+    const removed = messageList.pop();
+    messagesDiv.removeChild(removed);
+  }
 
-      messagesDiv.prepend(div);
-    });
+  messagesDiv.prepend(div);
+});
 
     document.getElementById("submitBtn").addEventListener("click", submitMessage);
   </script>
